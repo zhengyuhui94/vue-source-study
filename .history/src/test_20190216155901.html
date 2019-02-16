@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="App" v-cloak>
+    <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></blog-post>
+    <button-counter></button-counter>
+    <my-component :prop-a="100" :prop-b="'str'" :prop-c="'must'" :prop-f="'success'"></my-component>
+    <h1 slot="body">我是body</h1>
+    <h2 slot="header">我是header</h2>
+    <blog-post-1>
+        <h1 slot="header">
+            About Me
+        </h1>
+
+        <p>Here's some page content, which will be included in vm.$slots.default, because it's not inside a named slot.</p>
+
+        <p slot="footer">
+            Copyright 2016 Evan You
+        </p>
+
+        <p>If I have some content down here, it will also be included in vm.$slots.default.</p>.
+    </blog-post-1>
+    <blog-post-2>
+        <h1 slot="header">我是header</h1>
+        <h2>我是default 未命名的插槽</h2>
+        <h3 slot="footer">我是footer</h3>
+    </blog-post-2>
+</div>
+<style>
+    h {
+        width: 100px;
+        height: 100px;
+    }
+    [v-cloak] {
+        display: none;
+    }
+</style>
+<script type="text/javascript" src="https://vuejs.org/js/vue.js"></script>
+<script type="text/javascript" src="https://unpkg.com/vuex@3.1.0/dist/vuex.js"></script>
+<script>
+    Vue.component('blog-post',{
+        props: ['title'],
+        template: '<div>{{title}}</div>'
+    });
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        // template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+        render: function (h) {
+            return h('button', this.count);
+        }
+    });
+    Vue.component('blog-post-1', {
+        render: function (createElement) {
+            var header = this.$slots.header;
+            var body   = this.$slots.default;
+            var footer = this.$slots.footer;
+            return createElement('div', [
+                createElement('header', header),
+                createElement('main', body),
+                createElement('footer', footer)
+            ])
+        }
+    });
+    Vue.component('blog-post-2', {
+        render: function (createElement) {
+            var header = this.$slots.header;
+            var body   = this.$slots.default;
+            var footer = this.$slots.footer;
+            return createElement('div', [
+                createElement('header', header),
+                createElement('main', body),
+                createElement('footer', footer)
+            ])
+        }
+    });
+    Vue.component('my-component', {
+        props: {
+            // 基础的类型检查 (`null` 匹配任何类型)
+            propA: Number,
+            // 多个可能的类型
+            propB: [String, Number],
+            // 必填的字符串
+            propC: {
+                type: String,
+                required: true
+            },
+            // 带有默认值的数字
+            propD: {
+                type: Number,
+                default: 100
+            },
+            // 带有默认值的对象
+            propE: {
+                type: Object,
+                // 对象或数组默认值必须从一个工厂函数获取
+                default: function () {
+                    return { message: 'hello' }
+                }
+            },
+            // 自定义验证函数
+            propF: {
+                validator: function (value) {
+                    // 这个值必须匹配下列字符串中的一个
+                    return ['success', 'warning', 'danger'].indexOf(value) !== -1
+                }
+            }
+        },
+        template: `<div>
+                    <h1>{{propA}}</h1>
+                    <h2>{{propB}}</h2>
+                    <h3>{{propC}}</h3>
+                    <h4>{{propD}}</h4>
+                    <h5>{{propE.message}}</h5>
+                    <h6>{{propF}}</h6>
+                   </div>`
+    });
+    var myVm = new Vue({
+        el: '#App',
+        data: {
+            posts: [
+                { id: 1, title: 'My journey with Vue' },
+                { id: 2, title: 'Blogging with Vue' },
+                { id: 3, title: 'Why Vue is so fun' }
+            ]
+        },
+        computed: {
+            aaaTest1: function () {
+                return 11;
+            }
+        }
+    });
+    console.log(myVm);
+</script>
+</body>
+</html>

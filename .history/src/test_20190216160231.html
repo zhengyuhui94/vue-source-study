@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script src="https://res.ekwing.com/js/plugins/jquery.js?v=1539333677612"></script>
+<style>
+    video{
+        position: fixed;
+        right:0;
+        bottom: 0;
+        min-width: 100%;
+        min-height: 100%;
+        width: auto;
+        height: auto;
+        z-index: -9999;
+        /*灰色调*/
+        /*-webkit-filter:grayscale(100%)*/
+    }
+    #music {
+        width: 100px;
+        height: 100px;
+        background-color: antiquewhite;
+    }
+</style>
+<video id="v1" muted loop style="width: 100%">
+    <div style="width: 50px;height: 50px;background-color: antiquewhite;"></div>
+    <source  src="http://cdn-ekwing-oss-new.ekwing.com/acpf/data/upload/bt/2018/08/20/5b7a9b73c6fca.mp4">
+</video>
+<div id="music"></div>
+<audio id="bgMusic" loop="loop" preload="auto" src="https://cdn-ekwing-oss-new.ekwing.com/data/upload/mp3/bgmusic.mp3"></audio>
+<script>
+    var audio = document.getElementById('bgMusic');
+    $('body').on('click','#music',function () {
+        if(audio !== null) {
+            //检测播放是否已暂停.audio.paused 在播放器播放时返回false.
+            if(audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+    });
+    audio.addEventListener("loadeddata", function(){
+        console.log(audio)
+        audio.play();
+    });
+</script>
+</body>
+</html>

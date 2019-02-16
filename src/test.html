@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {# include file="Comm/head_hw_meta.tpl" #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>训练分析</title>
+	{# include file="Comm/check_css.tpl" #}
+	<script type="text/javascript" src="{# $pageData.comm.__RESOURCE__ #}js/zepto.js?v{# $pageData.comm.__VERSION__ #}"></script>
+  <script src="//res.ekwing.com/js/plugins/require.js?v={# $pageData.comm.__VERSION__ #}"></script>
+  <script type="text/javascript" src="//res.ekwing.com/js/teacher/conf.js?v={# $pageData.comm.__VERSION__ #}"></script>
+  <script style="text/javascript">
+      require(['loadpage']);
+  </script>
+</head>
+<body class="task_wrap">
+<div class="cont_wrap">
+    <div class="w50 task_tab">
+        <ul class="clearfix">
+            <li><a href="{# $pageData.comm.__ROOT__ #}teacher/hw/detail?v={# $pageData.comm.__APP_VERSION__ #}&hid={# $pageData.data.analyse.hw_id #}">训练详情</a></li>
+            <li class="active"><a href="javasript:;">训练分析</a></li>
+        </ul>
+    </div>
+    <div class="task_tab_show">
+        <div class="task_tab_div" style="display:block;">
+            <div class="tit analy_tit">训练结果简评</div>
+            <div class="fr">
+                <p style="padding:2rem 1.4rem; font-size: 1.4rem; color: #333; line-height:2.5rem;text-indent: 2.0rem;">亲爱的老师，本次训练一共{# $pageData.data.analyse.comment.total #}项，其中得分最高的项目是{# $pageData.data.analyse.comment.maxTitle.name #}，平均分{# $pageData.data.analyse.comment.maxScore #}；得分最低的项目是{# $pageData.data.analyse.comment.minTitle.name #}，平均分{# $pageData.data.analyse.comment.minScore #}，建议老师关注此项训练。</p>
+                <em></em>
+            </div>
+        </div>
+    </div>
+</div>
+{# include file="Comm/pwiki.tpl" #}
+</body>
+</html>
