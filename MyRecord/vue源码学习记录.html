@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue源码学习</title>
+</head>
+<body>
+<script>
+    //  在初始化 data、props 的时候，会调用 observer 进行响应式处理
+
+    // 2.响应式系统的依赖收集原理
+        // 首先在 observer 的过程中会注册 get 方法，该方法用来进行「依赖收集」。
+        // 在它的闭包中会有一个 Dep 对象，这个对象用来存放 Watcher 对象的实例。
+        // 其实「依赖收集」的过程就是把 Watcher 实例存放到对应的 Dep 对象中去。
+        // get 方法可以让当前的 Watcher 对象（Dep.target）存放到它的 subs 中（addSub）方法，
+        // 在数据变化时，set 会调用 Dep 对象的 notify 方法通知它内部所有的 Watcher 对象进行视图更新。
+
+    // 3.实现 Virtual DOM 下的一个 VNode 节点
+        // Virtual DOM 其实就是一棵以 JavaScript 对象（VNode 节点）作为基础的树，
+        // 用对象属性来描述节点，实际上它只是一层对真实 DOM 的抽象。
+        // 最终可以通过一系列操作使这棵树映射到真实环境上。
+
+    // 3.数据状态更新
+        // 在对 model 进行操作的时候，会触发对应 Dep 中的 Watcher 对象。
+        // Watcher 对象会调用对应的 update 来修改视图。
+        // 最终是将新产生的 VNode 节点与老 VNode 进行一个 patch 的过程，通过 diff 算法比对得出「差异」，
+        // 最终将这些「差异」更新到视图上
+
+    // 4.异步批量更新策略及 nextTick 原理
+        // 在数据发生改变的时候，调用 dep.notify()，从而调用 Watcher 对象的 update 方法，
+        // 再调用异步更新的 queueWatcher 方法，
+        // 将 watcher 对象添加到一个队列中(有一个 has 标识队列，用于避免将相同 watcher 对象添加到队列)，
+        // 接着有一个 waiting 标识，用于标记是否已经向 nextTick 传递了 flushSchedulerQueue 方法，
+        /* 注：waiting 标识、has 标识队列会在调用完 flushSchedulerQueue 方法之后被重置 */
+        // 最后 nextTick 异步执行传入的 flushSchedulerQueue 方法，
+        // 从而去遍历并执行存放 Watcher 对象队列中的所有的 watcher.run 方法，并进行重新渲染
+</script>
+</body>
+</html>
