@@ -52,12 +52,9 @@ export default class Dep {
 }
 
 // 正在评估的当前目标监视程序。
-// the current target watcher being evaluated.
 // 这在全局上是唯一的，因为在任何时候都只能有一个观察者被评估。
-// this is globally unique because there could be only one
-// watcher being evaluated at any time.
 // Dep.target 中保存的值就是要被收集的依赖(观察者)
-// 渲染函数执行之前 Dep.target 的值必然是 渲染函数的观察者对象
+// 渲染函数执行之前 Dep.target 的值必然是渲染函数的观察者对象
 Dep.target = null
 const targetStack = []
 

@@ -97,12 +97,14 @@ function initProps (vm: Component, propsOptions: Object) {
         }
       })
     } else {
+      // 调用 defineReactive 方法把每个 prop 对应的值变成响应式
       defineReactive(props, key, value)
     }
     // static props are already proxied on the component's prototype
     // during Vue.extend(). We only need to proxy props defined at
     // instantiation here.
     if (!(key in vm)) {
+      // 通过 proxy 把 vm._props.xxx 的访问代理到 vm.xxx 上
       proxy(vm, `_props`, key)
     }
   }
@@ -236,8 +238,7 @@ export function defineComputed (
       : noop
     sharedPropertyDefinition.set = userDef.set || noop
   }
-  if (process.env.NODE_ENV !== 'production' &&
-      sharedPropertyDefinition.set === noop) {
+  if (process.env.NODE_ENV !== 'production' && sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
         // 已分配计算属性“${key}”，但它没有setter
@@ -257,6 +258,7 @@ function createComputedGetter (key) {
         watcher.evaluate()
       }
       if (Dep.target) {
+        // 将计算属性的观察者实例添加到依赖属性的 dep 依赖中
         watcher.depend()
       }
       return watcher.value
@@ -311,7 +313,7 @@ function initWatch (vm: Component, watch: Object) {
   }
 }
 
-function createWatcher (
+function  createWatcher (
   vm: Component,
   expOrFn: string | Function,
   handler: any,

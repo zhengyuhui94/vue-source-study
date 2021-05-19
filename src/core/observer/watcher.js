@@ -115,6 +115,7 @@ export default class Watcher {
    * 计算getter，并重新收集依赖项。
    */
   get () {
+    // Dep.target 赋值为当前的渲染 watcher
     pushTarget(this)
     let value
     const vm = this.vm
@@ -130,6 +131,7 @@ export default class Watcher {
       // "touch" every property so they are all tracked as
       // dependencies for deep watching
       if (this.deep) {
+        // 递归去访问 value，触发它所有子项的 getter
         traverse(value)
       }
       popTarget()
@@ -190,7 +192,7 @@ export default class Watcher {
       this.dirty = true
     } else if (this.sync) {  // 同步更新
       this.run()
-    } else {  // 异步更新
+    } else {  // 一般情况，会走到异步更新这一步
       // queueWatcher 函数的作用是将观察者放到一个队列中等待所有突变完成之后统一执行更新
       queueWatcher(this)
     }

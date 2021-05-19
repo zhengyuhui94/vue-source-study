@@ -35,7 +35,7 @@ export function toggleObserving (value: boolean) {
  * collect dependencies and dispatch updates.
  */
 export class Observer {
-  value: any; // data 对象下的属性
+  value: any; // data 对象
   dep: Dep;
   vmCount: number; // number of vms that have this object as root $data
 
@@ -290,9 +290,7 @@ export function set (target: Array<any> | Object, key: any, val: any): any {
  * Delete a property and trigger change if necessary.
  */
 export function del (target: Array<any> | Object, key: any) {
-  if (process.env.NODE_ENV !== 'production' &&
-    (isUndef(target) || isPrimitive(target))
-  ) {
+  if (process.env.NODE_ENV !== 'production' && (isUndef(target) || isPrimitive(target)) ) {
     warn(`Cannot delete reactive property on undefined, null, or primitive value: ${(target: any)}`)
   }
   if (Array.isArray(target) && isValidArrayIndex(key)) {
